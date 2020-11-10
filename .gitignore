@@ -8,7 +8,14 @@
 .idea
 
 ### SQLite databases ###
-.sqlite
+data.sqlite
+
+### log & docs dirs ###
+logs/
+docs/
+
+### testing file ###
+testing.py
 
 ### PyCharm ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
