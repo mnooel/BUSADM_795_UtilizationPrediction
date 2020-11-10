@@ -13,6 +13,7 @@ data.sqlite
 ### log & docs dirs ###
 logs/
 docs/
+SQL/
 
 ### testing file ###
 testing.py
@@ -135,3 +136,4 @@ pyvenv.cfg
 pip-selfcheck.json
 
 # End of https://www.toptal.com/developers/gitignore/api/pycharm,dotenv,venv
+/SQL/

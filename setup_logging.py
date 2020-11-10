@@ -2,6 +2,7 @@
 
 import logging
 import logging.config
+from settings import LOGS_DIR
 
 
 class CustomFormatter(logging.Formatter):
@@ -29,12 +30,12 @@ class CustomFormatter(logging.Formatter):
         return formatter.format(record)
 
 
-def setup_logger(logger: logging.Logger, log_path: str) -> None:
+def setup_logger(logger: logging.Logger, log_file_name: str) -> None:
     """
     function that setups a standard logger
     :rtype: None
     :param logger: logger object initiated at the beginning of the file
-    :param log_path: path to save the log to
+    :param log_file_name: name to save the log as
     :return:  None only modifications are made to the logger object
     """
 
@@ -42,7 +43,7 @@ def setup_logger(logger: logging.Logger, log_path: str) -> None:
 
     # create handlers
     console_handler = logging.StreamHandler()
-    file_handler = logging.FileHandler(log_path)
+    file_handler = logging.FileHandler(LOGS_DIR + '/' + log_file_name)
 
     # set levels of the handlers
     console_handler.setLevel(level=logging.DEBUG)
