@@ -54,6 +54,16 @@ class BaseConnection:
         except Exception as e:
             connections_logger.error(e.args)
 
+    def query_df_from_table_name(self, table_name: str) -> pd.DataFrame:
+        try:
+            t1 = time.time()
+            df = pd.read_sql_table(table_name, self.engine)
+            t2 = time.time()
+            diff = round(t2 - t1, 4)
+            connections_logger.info(f'{self.__repr__()} {table_name} queried. Rows: {len(df)}. Seconds: {diff}.')
+        except Exception as e:
+            connections_logger.error(e.args)
+
     def query_df_from_sql_script(self, script_file_name: str, **pd_kwargs) -> pd.DataFrame:
         try:
             sql_commands = self.read_sql_commands_from_script(script_file_name)
@@ -65,7 +75,8 @@ class BaseConnection:
                 df = pd.read_sql(sql_commands[0], self.engine, **pd_kwargs)
                 t2 = time.time()
                 diff = round(t2 - t1, 4)
-                connections_logger.info(f'{self.__repr__()} {script_file_name} queried. Exe seconds: {diff}.')
+                connections_logger.info(f'{self.__repr__()} {script_file_name} script queried. '
+                                        f'Rows: {len(df)}. Seconds: {diff}.')
                 return df
 
         except Exception as e:
@@ -77,8 +88,11 @@ class BaseConnection:
                 raise PermissionError(f'{self.__repr__()}.write_permission = False.',
                                       'Inserting data to db is prohibited.')
             else:
-                print(type(pd_kwargs))
+                t1 = time.time()
                 df.to_sql(table_name, self.engine, **pd_kwargs)
+                t2 = time.time()
+                diff = round(t2 - t1, 4)
+                connections_logger.info(f'{self.__repr__()} {table_name} inserted. Rows: {len(df)}. Seconds: {diff}.')
 
         except Exception as e:
             connections_logger.error(e.args)

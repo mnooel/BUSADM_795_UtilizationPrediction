@@ -18,4 +18,3 @@ SOURCE_DB_URL = f'mssql+pyodbc://' \
 SQL_SCRIPT_DIR = PROJECT_DIR + '/SQL'
 SOURCE_SQL_SCRIPT_DIR = SQL_SCRIPT_DIR + '/source_db'
 LITE_SQL_SCRIPT_DIR = SQL_SCRIPT_DIR + '/lite_db'
-
