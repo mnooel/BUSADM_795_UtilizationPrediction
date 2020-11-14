@@ -36,7 +36,8 @@ class BaseConnection:
             self.metadata.reflect(bind=self.engine)
             t2 = time.time()
             diff = round(t2 - t1, 4)
-            connections_logger.info(f'{self.__repr__()} queried. Exe seconds: {diff}.')
+            connections_logger.info(f'{self.__repr__()} metadata queried. Tables: '
+                                    f'{len(self.metadata.tables)}. Seconds: {diff}.')
         except Exception as e:
             connections_logger.error(e.args)
 
@@ -61,6 +62,7 @@ class BaseConnection:
             t2 = time.time()
             diff = round(t2 - t1, 4)
             connections_logger.info(f'{self.__repr__()} {table_name} queried. Rows: {len(df)}. Seconds: {diff}.')
+            return df
         except Exception as e:
             connections_logger.error(e.args)
 
@@ -87,6 +89,9 @@ class BaseConnection:
             if self.write_permission is False:
                 raise PermissionError(f'{self.__repr__()}.write_permission = False.',
                                       'Inserting data to db is prohibited.')
+            elif not isinstance(df, pd.DataFrame):
+                raise TypeError(f'{self.__repr__()}.insert_table_as_df().'
+                                f'df object type required pd.DataFrame, {type(df)} passed')
             else:
                 t1 = time.time()
                 df.to_sql(table_name, self.engine, **pd_kwargs)
